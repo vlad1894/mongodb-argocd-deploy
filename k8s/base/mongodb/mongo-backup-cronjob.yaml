@@ -16,7 +16,7 @@ spec:
               - "/bin/sh"
               - "-c"
               - >
-                mongodump --host mongodb-0.mongodb.mongodb.svc.cluster.local --db My_App --out /backup/$(date +%F-%H%M%S) &&
+                mongodump --host mongodb.mongodb.svc.cluster.local --db My_App --out /backup/$(date +%F-%H%M%S) &&
                 echo "Backup completed at $(date)"
             volumeMounts:
             - name: backup-storage
