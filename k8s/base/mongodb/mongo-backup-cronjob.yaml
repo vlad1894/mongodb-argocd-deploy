@@ -4,7 +4,7 @@ metadata:
   name: mongo-backup-cron
   namespace: mongodb
 spec:
-  schedule: "0 2 * * *"  # Every day at 2 AM
+  schedule: "0 2 * * *"  # Runs every day at 2 AM
   jobTemplate:
     spec:
       template:
@@ -16,8 +16,25 @@ spec:
               - "/bin/sh"
               - "-c"
               - >
-                mongodump --host mongodb.mongodb.svc.cluster.local --db My_App --out /backup/$(date +%F-%H%M%S) &&
-                echo "Backup completed at $(date)"
+                echo "Starting MongoDB Backup...";
+                mongodump --host mongodb.mongodb.svc.cluster.local \
+                --db My_App \
+                --username "$MONGO_USERNAME" \
+                --password "$MONGO_PASSWORD" \
+                --authenticationDatabase admin \
+                --out /backup/$(date +%F-%H%M%S) &&
+                echo "Backup completed at $(date)";
+            env:
+              - name: MONGO_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: mongodb-secret
+                    key: username
+              - name: MONGO_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mongodb-secret
+                    key: password
             volumeMounts:
             - name: backup-storage
               mountPath: /backup
