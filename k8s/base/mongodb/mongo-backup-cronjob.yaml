@@ -4,7 +4,7 @@ metadata:
   name: mongo-backup-cron
   namespace: mongodb
 spec:
-  schedule: "0 2 * * *"  # Runs every day at 2 AM
+  schedule: "0 2 * * *"
   jobTemplate:
     spec:
       template:
@@ -17,7 +17,7 @@ spec:
               - "-c"
               - >
                 echo "Starting MongoDB Backup...";
-                mongodump --uri="mongodb://$MONGO_USERNAME:$MONGO_PASSWORD@mongodb.mongodb.svc.cluster.local:27017/My_App?authSource=admin" \
+                mongodump --uri="mongodb://$MONGO_USERNAME:$MONGO_PASSWORD@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" \
                 --out "/backup/$(date +%F-%H%M%S)" &&
                 echo "Backup completed at $(date)";
             env:
