@@ -17,8 +17,11 @@ spec:
               - "-c"
               - >
                 echo "Starting MongoDB Backup...";
-                mongodump --uri="mongodb://$MONGO_USERNAME:$MONGO_PASSWORD@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" \
-                --out "/backup/$(date +%F-%H%M%S)" &&
+                echo "MongoDB Username: $MONGO_USERNAME";
+                echo "MongoDB Password: $MONGO_PASSWORD";
+                MONGO_URI=$(printf "mongodb://%s:%s@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" "$MONGO_USERNAME" "$MONGO_PASSWORD");
+                echo "Using MongoDB URI: $MONGO_URI";
+                mongodump --uri="$MONGO_URI" --out "/backup/$(date +%F-%H%M%S)" &&
                 echo "Backup completed at $(date)";
             env:
               - name: MONGO_USERNAME
