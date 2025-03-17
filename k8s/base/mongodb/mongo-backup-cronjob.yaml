@@ -17,8 +17,8 @@ spec:
               - "-c"
               - >
                 echo "Starting MongoDB Backup...";
-                mongodump --uri="mongodb://$MONGO_USERNAME:$MONGO_PASSWORD@mongodb.mongodb.svc.cluster.local:27017/My_App?authSource=admin" \
-                --out /backup/$(date +%F-%H%M%S) &&
+                mongodump --uri="mongodb://\"$MONGO_USERNAME\":\"$MONGO_PASSWORD\"@mongodb.mongodb.svc.cluster.local:27017/My_App?authSource=admin" \
+                --out "/backup/$(date +%F-%H%M%S)" &&
                 echo "Backup completed at $(date)";
             env:
               - name: MONGO_USERNAME
