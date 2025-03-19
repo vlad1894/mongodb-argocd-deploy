@@ -4,7 +4,7 @@ metadata:
   name: mongo-restore-cron
   namespace: mongodb
 spec:
-  schedule: "0 3 * * *"  # Runs daily at 3 AM (change if needed)
+  schedule: "0 3 * * *"
   jobTemplate:
     spec:
       template:
@@ -18,12 +18,9 @@ spec:
               - >
                 echo "Starting MongoDB Restore...";
                 MONGO_URI=$(printf "mongodb://%s:%s@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" "$MONGO_USERNAME" "$MONGO_PASSWORD");
-                echo "Using MongoDB URI: $MONGO_URI";
-                LATEST_BACKUP=$(ls -td /backup/* | head -1);
-                echo "Latest Backup: $LATEST_BACKUP";
-                LATEST_DB_DUMP="$LATEST_BACKUP";
-                echo "Restoring from: $LATEST_DB_DUMP";
-                mongorestore --uri="$MONGO_URI" --drop --dir="$LATEST_DB_DUMP" --nsInclude=admin.* &&
+                LATEST_BACKUP=$(ls -td /backups/* | head -1);
+                echo "Restoring from: $LATEST_BACKUP";
+                mongorestore --uri="$MONGO_URI" --drop --dir="$LATEST_BACKUP" --nsInclude=admin.* &&
                 echo "Restore completed at $(date)";
             env:
               - name: MONGO_USERNAME
@@ -38,7 +35,7 @@ spec:
                     key: password
             volumeMounts:
             - name: backup-storage
-              mountPath: /backup
+              mountPath: /backups
           restartPolicy: Never
           volumes:
           - name: backup-storage
