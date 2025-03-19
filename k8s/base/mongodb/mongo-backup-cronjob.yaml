@@ -37,6 +37,6 @@ spec:
                 subPath: backups
           restartPolicy: Never
           volumes:
-            - name: backup-storage
+            - name: mongo-backups
               persistentVolumeClaim:
-                claimName: mongodb-pvc
+                claimName: mongo-backup-pvc
