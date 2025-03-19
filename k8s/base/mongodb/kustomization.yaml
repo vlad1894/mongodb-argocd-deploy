@@ -8,3 +8,4 @@ resources:
   - mongodb-secret.yaml
   - mongo-backup-cronjob.yaml
   - mongo-restore-cronjob.yaml
+  - mongo-backup-pvc.yaml
