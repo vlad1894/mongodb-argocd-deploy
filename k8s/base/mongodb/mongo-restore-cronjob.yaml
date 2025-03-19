@@ -36,6 +36,7 @@ spec:
             volumeMounts:
             - name: backup-storage
               mountPath: /backups
+              subPath: backups
           restartPolicy: Never
           volumes:
           - name: backup-storage
