@@ -34,6 +34,9 @@ spec:
             - name: mongo-storage
               mountPath: /data/db
               subPath: data
+            - name: mongo-storage
+              mountPath: /backups
+              subPath: backups
       volumes:
         - name: mongo-storage
           persistentVolumeClaim:
