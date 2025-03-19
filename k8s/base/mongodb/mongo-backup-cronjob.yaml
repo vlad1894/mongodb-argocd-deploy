@@ -10,30 +10,30 @@ spec:
       template:
         spec:
           containers:
-          - name: mongo-backup
-            image: mongo:6.0
-            command:
-              - "/bin/sh"
-              - "-c"
-              - >
-                echo "Starting MongoDB Backup...";
-                MONGO_URI=$(printf "mongodb://%s:%s@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" "$MONGO_USERNAME" "$MONGO_PASSWORD");
-                mongodump --uri="$MONGO_URI" --out "/backups/$(date +%F-%H%M%S)" &&
-                echo "Backup completed at $(date)";
-            env:
-              - name: MONGO_USERNAME
-                valueFrom:
-                  secretKeyRef:
-                    name: mongodb-secret
-                    key: username
-              - name: MONGO_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: mongodb-secret
-                    key: password
-            volumeMounts:
-              - name: mongo-backups
-                mountPath: /backups
+            - name: mongo-backup
+              image: mongo:6.0
+              command:
+                - "/bin/sh"
+                - "-c"
+                - >
+                  echo "Starting MongoDB Backup...";
+                  MONGO_URI=$(printf "mongodb://%s:%s@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" "$MONGO_USERNAME" "$MONGO_PASSWORD");
+                  mongodump --uri="$MONGO_URI" --out "/backups/$(date +%F-%H%M%S)" &&
+                  echo "Backup completed at $(date)";
+              env:
+                - name: MONGO_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: mongodb-secret
+                      key: username
+                - name: MONGO_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mongodb-secret
+                      key: password
+              volumeMounts:
+                - name: mongo-backups
+                  mountPath: /backups
           restartPolicy: Never
           volumes:
             - name: mongo-backups
