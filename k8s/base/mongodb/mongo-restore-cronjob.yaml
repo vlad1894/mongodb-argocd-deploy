@@ -18,8 +18,12 @@ spec:
               - >
                 echo "Starting MongoDB Restore...";
                 MONGO_URI=$(printf "mongodb://%s:%s@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" "$MONGO_USERNAME" "$MONGO_PASSWORD");
+                echo "Using MongoDB URI: $MONGO_URI";
                 LATEST_BACKUP=$(ls -td /backup/* | head -1);
-                mongorestore --uri="$MONGO_URI" --drop --dir="$LATEST_BACKUP" &&
+                echo "Latest Backup: $LATEST_BACKUP";
+                LATEST_DB_DUMP="$LATEST_BACKUP/admin";
+                echo "Restoring from: $LATEST_DB_DUMP";
+                mongorestore --uri="$MONGO_URI" --drop --dir="$LATEST_DB_DUMP" --nsInclude=admin.* &&
                 echo "Restore completed at $(date)";
             env:
               - name: MONGO_USERNAME
