@@ -32,9 +32,8 @@ spec:
                     name: mongodb-secret
                     key: password
             volumeMounts:
-              - name: backup-storage
+              - name: mongo-backups
                 mountPath: /backups
-                subPath: backups
           restartPolicy: Never
           volumes:
             - name: mongo-backups
