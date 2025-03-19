@@ -32,11 +32,11 @@ spec:
                     name: mongodb-secret
                     key: password
             volumeMounts:
-            - name: backup-storage
-              mountPath: /backups
-              subPath: backups
+              - name: backup-storage
+                mountPath: /backups
+                subPath: backups
           restartPolicy: Never
           volumes:
-          - name: backup-storage
-            persistentVolumeClaim:
-              claimName: mongodb-pvc
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: mongodb-pvc
