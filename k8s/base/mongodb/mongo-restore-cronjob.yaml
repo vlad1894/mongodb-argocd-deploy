@@ -21,7 +21,7 @@ spec:
                 echo "Using MongoDB URI: $MONGO_URI";
                 LATEST_BACKUP=$(ls -td /backup/* | head -1);
                 echo "Latest Backup: $LATEST_BACKUP";
-                LATEST_DB_DUMP="$LATEST_BACKUP/admin";
+                LATEST_DB_DUMP="$LATEST_BACKUP";
                 echo "Restoring from: $LATEST_DB_DUMP";
                 mongorestore --uri="$MONGO_URI" --drop --dir="$LATEST_DB_DUMP" --nsInclude=admin.* &&
                 echo "Restore completed at $(date)";
@@ -43,4 +43,4 @@ spec:
           volumes:
           - name: backup-storage
             persistentVolumeClaim:
-              claimName: mongo-backup-pvc
+              claimName: mongodb-pvc

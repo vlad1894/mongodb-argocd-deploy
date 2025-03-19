@@ -6,6 +6,5 @@ resources:
   - mongodb-service.yaml
   - mongodb-pvc.yaml
   - mongodb-secret.yaml
-  - mongo-backup-pvc.yaml
   - mongo-backup-cronjob.yaml
   - mongo-restore-cronjob.yaml

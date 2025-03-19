@@ -38,4 +38,4 @@ spec:
           volumes:
           - name: backup-storage
             persistentVolumeClaim:
-              claimName: mongo-backup-pvc
+              claimName: mongodb-pvc
