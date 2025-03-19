@@ -20,7 +20,7 @@ spec:
                 MONGO_URI=$(printf "mongodb://%s:%s@mongodb.mongodb.svc.cluster.local:27017/admin?authSource=admin&authMechanism=SCRAM-SHA-1" "$MONGO_USERNAME" "$MONGO_PASSWORD");
                 LATEST_BACKUP=$(ls -td /backups/* | head -1);
                 echo "Restoring from: $LATEST_BACKUP";
-                mongorestore --uri="$MONGO_URI" --drop --dir="$LATEST_BACKUP" --nsInclude=admin.* &&
+                mongorestore --uri="$MONGO_URI" --drop "$LATEST_BACKUP" &&
                 echo "Restore completed at $(date)";
             env:
               - name: MONGO_USERNAME
